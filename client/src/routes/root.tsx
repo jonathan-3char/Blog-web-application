@@ -13,10 +13,10 @@ function Root() {
                 <a href="">About</a>
               </p>
               <p className="navbar-item">
-                <a href="">Sign in</a>
+                <a href="login">Log in</a>
               </p>
               <p className="navbar-item">
-                <a href="">Sign up</a>
+                <a href="signup">Sign up</a>
               </p>
             </div>
           </div>

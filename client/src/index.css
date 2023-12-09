@@ -184,3 +184,23 @@ h2 {
   max-width: 100%;
   display: inline-block;
 }
+
+input {
+  display: block;
+  margin-bottom: 5px;
+}
+
+label {
+  font-weight: bold;
+}
+
+.center-page {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.login-page,
+.sign-page {
+  padding: 20px;
+  margin-top: 58px;
+}
