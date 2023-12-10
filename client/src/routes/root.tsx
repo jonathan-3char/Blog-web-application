@@ -10,7 +10,7 @@ function Root() {
             <div className="navbar-empty"></div>
             <div className="navbar-links">
               <p className="navbar-item">
-                <a href="">About</a>
+                <a href="about">About</a>
               </p>
               <p className="navbar-item">
                 <a href="login">Log in</a>
