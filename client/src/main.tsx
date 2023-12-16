@@ -6,7 +6,7 @@ import Home from "./routes/home";
 import About from "./routes/about";
 import Login, { action as loginAction } from "./routes/login";
 import SignUp, { action as signUpAction } from "./routes/signUp";
-import Dashboard from "./routes/dashboard";
+import Dashboard, { loader as dashboardLoader } from "./routes/dashboard";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -31,6 +31,7 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <Dashboard />,
+        loader: dashboardLoader,
       },
       {
         path: "about",
