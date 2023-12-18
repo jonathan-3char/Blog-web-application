@@ -7,7 +7,7 @@ export async function action({ request }: { request: Request }) {
   const formData: FormData = await request.formData();
   const jsonData = Object.fromEntries(formData);
   const value = JSON.stringify(jsonData);
-  const url = "http://localhost:3000/login";
+  const url = "http://localhost:3000/session/login";
 
   const response: Response = await fetch(url, {
     method: "post",

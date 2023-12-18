@@ -213,3 +213,7 @@ label {
   display: flex;
   justify-content: space-between;
 }
+
+.users-name {
+  text-align: center;
+}
