@@ -1,13 +1,9 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 
 type SignUpData = {
   name: string;
 };
-
-type viewState = "recent" | "following" | "my";
-
-// NOTE: Have three async functions that will load said data will have to use useEffect
 
 export async function loader() {
   const url = "http://localhost:3000/user/displayName";
@@ -16,14 +12,21 @@ export async function loader() {
       method: "GET",
       credentials: "include",
     });
+    const message = await response.json();
 
-    return response;
+    if (message.name === undefined) {
+      return redirect("/login");
+    }
+
+    return message;
   } catch (err) {
     console.error(err);
 
     if (err instanceof Error) {
       return err.message;
     }
+
+    redirect("/login");
 
     return String(err);
   }

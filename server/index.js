@@ -14,14 +14,6 @@ app.use(express.json());
 // Recognize incoming request bodies as JSON objects
 app.use(sessionConfig);
 
-/* app.get("/test", isAuthenticated, (req, res) => {
-  res.json({ name: `hello, ${req.session.user}` });
-});
-
-app.get("/test", (req, res) => {
-  res.json({ name: "You are not signed in" });
-}); */
-
 app.use("/session", sessionRouter);
 app.use("/user", userRouter);
 

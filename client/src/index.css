@@ -217,3 +217,7 @@ label {
 .users-name {
   text-align: center;
 }
+
+.error-message {
+  color: red;
+}

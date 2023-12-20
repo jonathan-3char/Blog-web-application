@@ -2,12 +2,11 @@ import * as db from "../db/index.js";
 import bcrypt from "bcrypt";
 
 export async function login(req, res) {
-  const { email, password } = req.body;
-  let validPassword = false;
+  const { username, password } = req.body;
 
   if (
-    email === undefined ||
-    email.length === 0 ||
+    username === undefined ||
+    username.length === 0 ||
     password === undefined ||
     password === 0
   ) {
@@ -17,16 +16,16 @@ export async function login(req, res) {
 
   try {
     const client = await db.getClient();
-    const emailQuery =
-      "SELECT email, password, id FROM blog_accounts WHERE email = $1";
-    const emailResult = await client.query(emailQuery, [email]);
+    const query =
+      "SELECT username, password, id FROM blog_accounts WHERE username = $1";
+    const result = await client.query(query, [username]);
 
-    if (emailResult.rows.length === 0) {
-      res.status(400).json({ error: "Email or password incorrect" });
+    if (result.rows.length === 0) {
+      res.status(400).json({ error: "No Access" });
       return;
     }
-    const hash = emailResult.rows[0].password;
-    validPassword = await bcrypt.compare(password, hash);
+    const hash = result.rows[0].password;
+    const validPassword = await bcrypt.compare(password, hash);
     client.release();
 
     if (validPassword) {
@@ -37,18 +36,18 @@ export async function login(req, res) {
           return;
         }
 
-        req.session.user = emailResult.rows[0].id;
+        req.session.user = result.rows[0].id;
 
         req.session.save((err) => {
           if (err) {
-            res.json({ error: err });
+            res.status(400).json({ error: err });
             return;
           }
-          res.redirect("/user/displayName");
+          res.json({ message: "You are logged in" });
         });
       });
     } else {
-      res.json({ name: "Wrong" });
+      res.status(400).json({ error: "No Access" });
     }
   } catch (err) {
     console.error(err);
@@ -95,4 +94,22 @@ export async function signUp(req, res) {
   }
 
   res.json({ message: "Login in now" });
+}
+
+export async function logout(req, res) {
+  req.session.user = null;
+  req.session.save((err) => {
+    if (err) {
+      res.status(400).json({ err: err });
+      return;
+    }
+
+    req.session.regenerate((err) => {
+      if (err) {
+        res.status(400).json({ err: err });
+        return;
+      }
+      res.json({ message: "Logged out" });
+    });
+  });
 }
