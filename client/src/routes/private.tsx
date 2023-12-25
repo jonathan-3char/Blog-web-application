@@ -16,6 +16,8 @@ export async function loader() {
       return null;
     }
   }
+
+  return redirect("/login");
 }
 
 function PrivateRoute() {
@@ -50,7 +52,12 @@ function PrivateRoute() {
                 <a href="dashboard">Home</a>
               </p>
               <p className="navbar-item">
-                <button onClick={() => logout()}>Logout</button>
+                <a href="createPost">Create Post</a>
+              </p>
+              <p className="navbar-item">
+                <span onClick={() => logout()} className="logout">
+                  Logout
+                </span>
               </p>
             </div>
           </div>

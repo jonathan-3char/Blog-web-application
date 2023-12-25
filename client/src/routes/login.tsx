@@ -42,14 +42,12 @@ export async function action({ request }: { request: Request }) {
       return { message: "Username or Password incorrect" };
     }
   } catch (error) {
-    console.error("login issue");
+    return { message: "Login issue" };
   }
 }
 
 function Login() {
   const errors = useActionData() as LoginErrors;
-
-  redirect("/dashboard");
 
   return (
     <div className="login-page">

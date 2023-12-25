@@ -27,11 +27,6 @@ body {
   margin: 0 0;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -199,6 +194,7 @@ label {
   margin: auto;
 }
 
+.page,
 .login-page,
 .sign-page,
 .about-page,
@@ -220,4 +216,31 @@ label {
 
 .error-message {
   color: red;
+}
+
+.logout {
+  color: red;
+  padding: 0;
+  cursor: pointer;
+}
+
+.logout:hover {
+  color: red;
+}
+
+textarea {
+  resize: none;
+  width: 100%;
+  height: 500px;
+}
+
+.blog-content {
+  margin: 10px;
+}
+
+.author {
+}
+
+.author:hover {
+  text-decoration: underline;
 }

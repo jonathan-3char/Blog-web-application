@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import Root from "./routes/root";
@@ -12,6 +12,8 @@ import SignUp, { action as signUpAction } from "./routes/signUp";
 import Dashboard, { loader as dashboardLoader } from "./routes/dashboard";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PrivateRoute, { loader as privateLoader } from "./routes/private";
+import CreatePost, { action as createPostAction } from "./routes/createPost";
+import BlogPage, { loader as blogPageLoader } from "./routes/blogPage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +50,16 @@ const router = createBrowserRouter([
         path: "dashboard",
         element: <Dashboard />,
         loader: dashboardLoader,
+      },
+      {
+        path: "createPost",
+        element: <CreatePost />,
+        action: createPostAction,
+      },
+      {
+        path: "blog/:id",
+        element: <BlogPage />,
+        loader: blogPageLoader,
       },
     ],
   },
