@@ -1,4 +1,5 @@
 import * as db from "../config/database.js";
+import { nanoid } from "nanoid";
 
 export async function displayName(req, res) {
   const nameQuery = "SELECT display_name FROM blog_accounts WHERE id = $1";
@@ -17,6 +18,35 @@ export async function displayName(req, res) {
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err });
+  }
+}
+
+export async function createPost(req, res) {
+  try {
+    const { title, content } = req.body;
+    console.log(title, content);
+    const client = await db.getClient();
+    const query =
+      "INSERT INTO blogs (id, author, title, content) VALUES \
+    ($1, $2, $3, $4)";
+    const authorQuery = "SELECT username FROM blog_accounts WHERE id = $1";
+    const authorResult = await client.query(authorQuery, [req.session.user]);
+
+    if (authorResult.rows.length === 0) {
+      res.status(400).json({ error: "Something went wrong" });
+      return;
+    }
+    const id = nanoid();
+    await client.query(query, [
+      id,
+      authorResult.rows[0].username,
+      title,
+      content,
+    ]);
+    res.json({ message: "Blog was added" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: "Something went wrong" });
   }
 }
 

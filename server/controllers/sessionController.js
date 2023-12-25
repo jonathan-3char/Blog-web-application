@@ -85,15 +85,42 @@ export async function signUp(req, res) {
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
     const insertQuery =
-      "INSERT INTO blog_accounts (username, display_name, email, password) VALUES ($1, $2, $3, $4)";
-    client.query(insertQuery, [username, displayName, email, hash]);
+      "INSERT INTO blog_accounts (username, display_name, email, password) VALUES ($1, $2, $3, $4) RETURNING id";
+    const result = await client.query(insertQuery, [
+      username,
+      displayName,
+      email,
+      hash,
+    ]);
+
+    if (result.rows.length === 0) {
+      res.status(400).json({ error: "Something went wrong" });
+      return;
+    }
+
+    // create client side session with cookie
+    req.session.regenerate((err) => {
+      if (err) {
+        res.status(400).json({ error: err });
+        return;
+      }
+
+      req.session.user = result.rows[0].id;
+
+      req.session.save((err) => {
+        if (err) {
+          res.status(400).json({ error: err });
+          return;
+        }
+      });
+    });
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err });
     return;
   }
 
-  res.json({ message: "Login in now" });
+  res.json({ message: "You are logged in" });
 }
 
 export async function logout(req, res) {
