@@ -1,10 +1,14 @@
-function BlogThumbnail() {
+interface BlogThumbnailProps {
+  title: string;
+  author: string;
+  id: string;
+}
+
+function BlogThumbnail(props: BlogThumbnailProps) {
   return (
     <div className="blog-container">
       <h2 className="blog-title">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-        iaculis est orci. In cursus, enim molestie congue tincidunt, neque lorem
-        placerat nibh, sollicitudin congue lorem ex ut ante.
+        <a href={props.id}>{props.title}</a>
       </h2>
       <p className="preview-text">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
@@ -19,7 +23,7 @@ function BlogThumbnail() {
           className="profile-image"
         />
         <span className="blog-author">
-          <a href="/">Charles Rice</a>
+          <a href="/">{props.author}</a>
         </span>
       </div>
       <div className="horizontalInfo">

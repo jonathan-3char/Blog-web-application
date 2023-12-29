@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import Root from "./routes/root";
-import Home from "./routes/home";
+import Home, { loader as homeLoader } from "./routes/home";
 import About from "./routes/about";
 import Login, {
   action as loginAction,
@@ -23,6 +23,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        loader: homeLoader,
       },
       {
         path: "login",

@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-interface RootProps {
-  isSession: boolean;
-}
-
 function Root() {
   const [isLoggedIn, setLoggedIn] = useState(false);
 

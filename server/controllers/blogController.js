@@ -22,3 +22,20 @@ export async function viewBlog(req, res) {
     res.status(400).json({ error: "Something went wrong" });
   }
 }
+
+export async function viewLatestBlogs(req, res) {
+  const query = "SELECT * FROM blogs LIMIT 10";
+  try {
+    const response = await db.query(query);
+
+    if (response.rows.length === 0) {
+      res.status(404).json({ error: "There are no blogs" });
+      return;
+    }
+
+    res.json({ blogs: response.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: "Something went wrong" });
+  }
+}

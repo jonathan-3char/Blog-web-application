@@ -1,39 +1,63 @@
+import { useLoaderData } from "react-router-dom";
 import BlogThumbnail from "../components/BlogThumbnail";
 
+interface BlogThumbnailProps {
+  title: string;
+  author: string;
+  id: string;
+}
+
+export async function loader() {
+  const url = "http://localhost:3000/blog/tenLatestBlogs";
+  try {
+    const response = await fetch(url);
+
+    const result = await response.json();
+
+    if (result.blogs === undefined) {
+      console.error(result.error);
+      return null;
+    }
+
+    const thumbnails = result.blogs.map((blog: BlogThumbnailProps) => {
+      return (
+        <BlogThumbnail
+          title={blog.title}
+          author={blog.author}
+          key={blog.id}
+          id={blog.id}
+        />
+      );
+    });
+
+    return thumbnails;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
 function Home() {
+  const thumbnails = useLoaderData() as ReactNode;
   return (
     <div className="page-container">
       <div className="home-welcome">
         <div className="welcome-container">
           <h1>BLAH-GING</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-            iaculis est orci. In cursus, enim molestie congue tincidunt, neque
-            lorem placerat nibh, sollicitudin congue lorem ex ut ante. Ut
-            interdum nulla a erat sollicitudin lobortis. Aenean urna quam,
-            accumsan commodo interdum sit amet, rhoncus vel elit. Morbi ipsum
-            odio, feugiat eu lacinia nec, finibus non purus. Integer in sodales
-            est. Etiam tempus nisi nec consectetur convallis. Vivamus porta
-            dolor vitae lectus pretium, ac bibendum est sollicitudin. Proin
-            condimentum dui sit amet orci faucibus pretium.
+            On this website you can view the blog post from other users and even
+            create your own! Explore different types of interest and learn from
+            people's post. Or share your thoughts or ideas so others can see
+            them!
           </p>
           <p>
-            Vivamus interdum faucibus libero, nec tristique erat pretium sed.
-            Aenean ut est non lacus tempus sollicitudin. Nunc in nisl enim.
-            Donec blandit, lorem porttitor finibus bibendum, magna nibh suscipit
-            sapien, interdum facilisis turpis ipsum a tellus. Etiam id dapibus
-            turpis, non consectetur nisl. Mauris tincidunt ullamcorper orci, et
-            cursus nisi. Integer vel fermentum mauris. Sed sit amet purus neque.
-            Aliquam erat volutpat.
+            Blogs are made through markdown by the blogger. This makes it easy
+            to get started and allows for interesting articles and makes the
+            viewing experience comfortable for everyone.
           </p>
         </div>
       </div>
-      <div className="home-container">
-        <BlogThumbnail />
-        <BlogThumbnail />
-        <BlogThumbnail />
-        <BlogThumbnail />
-      </div>
+      <div className="home-container">{thumbnails}</div>
     </div>
   );
 }
