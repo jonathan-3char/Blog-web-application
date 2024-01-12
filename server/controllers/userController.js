@@ -67,7 +67,7 @@ export async function allBlogs(req, res) {
     ]);
 
     if (blogsResult.rows.length === 0) {
-      res.json({ message: "No blogs" });
+      res.json({ error: "No blogs" });
       return;
     }
 

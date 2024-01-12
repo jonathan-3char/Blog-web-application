@@ -1,5 +1,9 @@
 # Full-stack blog application
 
+## Preview
+
+![Application preview](preview.gif =250x250)
+
 ## Goal
 
 The goal of this project is to try to make a full-stack application. This is supposed to act as a blog website where users can create and view blogs.
