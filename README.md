@@ -2,7 +2,7 @@
 
 ## Preview
 
-![Application preview](preview.gif =250x250)
+![Application preview](preview.gif)
 
 ## Goal
 
