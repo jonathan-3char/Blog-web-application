@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 
 function Root() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -43,7 +43,7 @@ function Root() {
         <a href="about">About</a>
       </p>
       <p className="navbar-item">
-        <a href="dashboard">Home</a>
+        <Link to="dashboard">Home</Link>
       </p>
       <p className="navbar-item">
         <button>Logout</button>

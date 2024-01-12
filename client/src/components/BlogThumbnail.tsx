@@ -1,4 +1,4 @@
-interface BlogThumbnailProps {
+export interface BlogThumbnailProps {
   title: string;
   author: string;
   id: string;
@@ -8,7 +8,7 @@ function BlogThumbnail(props: BlogThumbnailProps) {
   return (
     <div className="blog-container">
       <h2 className="blog-title">
-        <a href={props.id}>{props.title}</a>
+        <a href={`/user/blog/${props.id}`}>{props.title}</a>
       </h2>
       <p className="preview-text">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas

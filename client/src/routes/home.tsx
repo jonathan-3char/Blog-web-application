@@ -39,6 +39,7 @@ export async function loader() {
 
 function Home() {
   const thumbnails = useLoaderData() as ReactNode;
+
   return (
     <div className="page-container">
       <div className="home-welcome">

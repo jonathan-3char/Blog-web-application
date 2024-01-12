@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { redirect, useLoaderData } from "react-router-dom";
+import { loader as getRecentBlogs } from "./home";
+import BlogThumbnail, { BlogThumbnailProps } from "../components/BlogThumbnail";
 
 type SignUpData = {
   name: string;
@@ -32,18 +34,57 @@ export async function loader() {
   }
 }
 
+async function usersBlogs() {
+  const url = "http://localhost:3000/user/allBlogs";
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+    });
+    const result = await response.json();
+
+    if (result.message === undefined) {
+      console.error(result.error);
+      return null;
+    }
+
+    const thumbnails = result.message.map((blog: BlogThumbnailProps) => {
+      return (
+        <BlogThumbnail
+          title={blog.title}
+          author={blog.author}
+          key={blog.id}
+          id={blog.id}
+        />
+      );
+    });
+
+    return thumbnails;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
 function Dashboard() {
-  const recentBlog = <div>For recent blog</div>;
-  const following = <div>Following content</div>;
-  const myBlogs = <div>My own blogs</div>;
   const [view, setView] = useState("recent");
+  const [blogView, setBlogView] = useState(<div></div>);
   const { name } = useLoaderData() as SignUpData;
 
-  const hashMap = new Map([
-    ["recent", recentBlog],
-    ["following", following],
-    ["my", myBlogs],
-  ]);
+  useEffect(() => {
+    async function fetchData() {
+      let viewPage = null;
+      if (view === "recent") {
+        viewPage = await getRecentBlogs();
+      } else if (view === "following") {
+        viewPage = <div>Still in the works</div>;
+      } else {
+        viewPage = await usersBlogs();
+      }
+      setBlogView(viewPage);
+    }
+    fetchData();
+  }, [view]);
 
   return (
     <div className="dashboard-page">
@@ -57,7 +98,7 @@ function Dashboard() {
             </button>
             <button onClick={() => setView("my")}>Your blogs</button>
           </div>
-          {hashMap.get(view)}
+          {blogView}
         </div>
       </div>
     </div>

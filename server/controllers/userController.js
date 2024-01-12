@@ -50,6 +50,34 @@ export async function createPost(req, res) {
   }
 }
 
+// get all blogs written by requesting user
+export async function allBlogs(req, res) {
+  try {
+    const client = await db.getClient();
+    const query = "SELECT username FROM blog_accounts WHERE id = $1";
+    const authorResult = await client.query(query, [req.session.user]);
+
+    if (authorResult.rows.length === 0) {
+      res.status(400).json({ error: "Something went wrong" });
+      return;
+    }
+    const blogQuery = "SELECT * from blogs WHERE author = $1";
+    const blogsResult = await client.query(blogQuery, [
+      authorResult.rows[0].username,
+    ]);
+
+    if (blogsResult.rows.length === 0) {
+      res.json({ message: "No blogs" });
+      return;
+    }
+
+    res.json({ message: blogsResult.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: "Something went wrong" });
+  }
+}
+
 export function noSession(req, res) {
   res.json({ error: "You are not signed in" });
 }

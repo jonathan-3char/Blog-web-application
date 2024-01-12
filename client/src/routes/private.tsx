@@ -1,4 +1,4 @@
-import { Outlet, redirect, useNavigate } from "react-router-dom";
+import { Link, Outlet, redirect, useNavigate } from "react-router-dom";
 
 export async function loader() {
   const url = "http://localhost:3000/user/displayName";
@@ -46,13 +46,13 @@ function PrivateRoute() {
             <div className="navbar-empty"></div>
             <div className="navbar-links">
               <p className="navbar-item">
-                <a href="about">About</a>
+                <Link to="about">About</Link>
               </p>
               <p className="navbar-item">
-                <a href="dashboard">Home</a>
+                <Link to="dashboard">Home</Link>
               </p>
               <p className="navbar-item">
-                <a href="createPost">Create Post</a>
+                <Link to="createPost">Create Post</Link>
               </p>
               <p className="navbar-item">
                 <span onClick={() => logout()} className="logout">
